@@ -1,1 +1,1 @@
-# openg-cpp-project-template
+# opengl-cpp-project-template
