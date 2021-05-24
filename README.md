@@ -1,0 +1,1 @@
+# openg-cpp-project-template
