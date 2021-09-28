@@ -1,8 +1,5 @@
-#include <GL/glew.h>  // <- muse be included first
-#include <GLFW/glfw3.h>
-
-#include <iostream>
-
+// #include "context.h"
+/*
 static void errorCallback(int errorCode, const char* errorDescription) {
   std::cerr << "Error : " << errorDescription << std::endl;
 }
@@ -84,4 +81,5 @@ int main(int argc, char* argv[]) {
 
   exit(EXIT_SUCCESS);
 }
+*/
 
