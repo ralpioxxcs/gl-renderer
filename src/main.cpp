@@ -1,30 +1,30 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
 
 static void OnErrorCallback(int errorCode, const char* errorDescription) {
   std::cerr << "Error : " << errorDescription << std::endl;
 }
 
-void OnKeyCallback(GLFWwindow* wnd, int key, int scancode, int action, int
-mods) {
+static void OnKeyCallback(GLFWwindow* wnd, int key, int scancode, int action,
+                          int mods) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
     glfwSetWindowShouldClose(wnd, GLFW_TRUE);
   }
 }
 
-void OnFramebufferSizeCallback(GLFWwindow* window, int width, int height) {
+static void OnFramebufferSizeCallback(GLFWwindow* window, int width,
+                                      int height) {
   glViewport(0, 0, width, height);
 }
 
 int main(int argc, char* argv[]) {
-  // glfwSetErrorCallback(errorCallback);
 
   if (!glfwInit()) {
     const char* desc = nullptr;
     glfwGetError(&desc);
-    std::cerr << "Error: failed to initialize GLFW (" << desc << ")" << std::endl;
+    std::cerr << "Error: failed to initialize GLFW (" << desc << ")"
+              << std::endl;
     return -1;
   }
 
@@ -34,18 +34,22 @@ int main(int argc, char* argv[]) {
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // core profile (not compatible)
+  glfwWindowHint(GLFW_OPENGL_PROFILE,
+                 GLFW_OPENGL_CORE_PROFILE);  // core profile (not compatible)
 
-  GLFWwindow* wnd = glfwCreateWindow(wndWidth, wndHeight, wndName, nullptr, nullptr);
+  GLFWwindow* wnd =
+      glfwCreateWindow(wndWidth, wndHeight, wndName, nullptr, nullptr);
   if (!wnd) {
     glfwTerminate();
     return -1;
   }
-  glfwMakeContextCurrent(wnd);  // GLFW가 현재 window을 main context로 만들도록 함
+  glfwMakeContextCurrent(
+      wnd);  // GLFW가 현재 window을 main context로 만들도록 함
 
   OnFramebufferSizeCallback(wnd, wndWidth, wndHeight);
   glfwSetFramebufferSizeCallback(wnd, OnFramebufferSizeCallback);
   glfwSetKeyCallback(wnd, OnKeyCallback);
+  glfwSetErrorCallback(OnErrorCallback);
 
   std::cout << "OpenGL version : " << glGetString(GL_VERSION) << std::endl;
   std::cout << "GLSL version : " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;

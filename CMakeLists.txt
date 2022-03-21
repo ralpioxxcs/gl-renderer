@@ -14,9 +14,8 @@ set(PROJECT_LIBRARY_OUTPUT_DIR ${PROJECT_OUTPUT_BASE_DIR}/lib)
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 # find & linking openGL libraries
-include(Dependency.cmake)
+include(dependencies.cmake)
 target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
 target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
-
 add_dependencies(${PROJECT_NAME} ${DEP_LIST})
