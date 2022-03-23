@@ -1,25 +1,22 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "common.h"
+
 #include <iostream>
 
 static void OnErrorCallback(int errorCode, const char* errorDescription) {
   std::cerr << "Error : " << errorDescription << std::endl;
 }
 
-static void OnKeyCallback(GLFWwindow* wnd, int key, int scancode, int action,
-                          int mods) {
+static void OnKeyCallback(GLFWwindow* wnd, int key, int scancode, int action, int mods) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
     glfwSetWindowShouldClose(wnd, GLFW_TRUE);
   }
 }
 
-static void OnFramebufferSizeCallback(GLFWwindow* window, int width,
-                                      int height) {
+static void OnFramebufferSizeCallback(GLFWwindow* window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
 int main(int argc, char* argv[]) {
-
   if (!glfwInit()) {
     const char* desc = nullptr;
     glfwGetError(&desc);
@@ -34,17 +31,14 @@ int main(int argc, char* argv[]) {
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE,
-                 GLFW_OPENGL_CORE_PROFILE);  // core profile (not compatible)
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow* wnd =
-      glfwCreateWindow(wndWidth, wndHeight, wndName, nullptr, nullptr);
+  GLFWwindow* wnd = glfwCreateWindow(wndWidth, wndHeight, wndName, nullptr, nullptr);
   if (!wnd) {
     glfwTerminate();
     return -1;
   }
-  glfwMakeContextCurrent(
-      wnd);  // GLFW가 현재 window을 main context로 만들도록 함
+  glfwMakeContextCurrent(wnd);  // GLFW가 현재 window을 main context로 만들도록 함
 
   OnFramebufferSizeCallback(wnd, wndWidth, wndHeight);
   glfwSetFramebufferSizeCallback(wnd, OnFramebufferSizeCallback);
