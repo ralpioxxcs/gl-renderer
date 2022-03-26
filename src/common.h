@@ -15,8 +15,9 @@
 
 // OpenGL
 // WARNING : should be included before glfw
+#define __gl3_h_
 #include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
