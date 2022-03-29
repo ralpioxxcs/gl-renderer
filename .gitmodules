@@ -10,6 +10,7 @@
 [submodule "submodules/imgui"]
 	path = submodules/imgui
 	url = https://github.com/ocornut/imgui
+	ignore = untracked
 [submodule "submodules/stb"]
 	path = submodules/stb
 	url = https://github.com/nothings/stb
