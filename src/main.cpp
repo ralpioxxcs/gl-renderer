@@ -1,4 +1,4 @@
-//#include "common.h"
+#include "common.h"
 
 /* Ask for an OpenGL Core Context */
 #define GLFW_INCLUDE_GLCOREARB

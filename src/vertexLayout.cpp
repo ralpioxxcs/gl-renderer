@@ -3,7 +3,8 @@
 VertexLayoutUptr VertexLayout::Create() {
   auto vl = VertexLayoutUptr(new VertexLayout());
   if (!vl) {
-    std::cerr << "VertexLayout::failed to allocate vertexLayout instance" << std::endl;
+    std::cerr << "VertexLayout::failed to allocate vertexLayout instance"
+              << std::endl;
     return nullptr;
   }
   if (!vl->init()) {
