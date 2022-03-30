@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
     shader->SetUniform("colorStart", glm::vec3(1.0f, 0.0f, 0.0f));
     shader->SetUniform("colorEnd", glm::vec3(1.0f , 0.5f, 0.0f));
     shader->SetUniform("gradWeight", 1.0f);
-    shader->SetUniform("radius", 5.0f);
+    shader->SetUniform("radius", 0.3f);
 
     vao->Bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
