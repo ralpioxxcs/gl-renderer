@@ -1,19 +1,19 @@
-#version 330 core
-
-vec2 uv = vec2(0);
+#version 420 core
 
 in vec2 TexCoord;
 
 uniform sampler2D tex;
 uniform vec2 resolution;
-uniform vec3 color;
+uniform vec3 colorStart;
+uniform vec3 colorEnd;
+uniform float gradWeight;
 uniform float radius;
-uniform float thickness;
 
 out vec4 fragColor;
 
 float roundedRect(vec2 pos, vec2 size, float radius) {
-  return length(max(abs(pos), size) - size) - radius;
+  vec2 d = abs(pos) - size + radius;
+  return min(max(d.x,d.y), 0.0) + length(max(d, 0.0)) - radius;
 }
 
 /*
@@ -30,22 +30,23 @@ float roundedRect(vec2 pos, vec2 size, float radius) {
 */
 
 void main() {
-  vec2 ratio = vec2(resolution.x / resolution.y, 1.0);
-  vec2 uv = TexCoord;             // texture coordinates in [0.0, 1.0]
-  uv = (2.0 * uv - 1.0) * ratio;  // normalize to [-1.0, 1.0]
+  const vec2 aspectRatio = vec2(resolution.x / resolution.y, 1.0);
 
-  vec2 pos = vec2(0.0f, 0.0f);   // center
-  vec2 size = vec2(0.8f, 0.8f);  // width, height proportion
+  // normalize in [-1, 1]
+  vec2 uvPos = (2.0 * TexCoord - 1.0) * aspectRatio; 
+  vec2 objPos = vec2(0.0f, 0.0f) * aspectRatio; // center of texture
+  
+  const vec2 size = vec2(0.95f, 0.95f);
+  float dist = roundedRect((uvPos - objPos), size * aspectRatio, radius);
 
-  float dist = roundedRect(uv - pos, size, radius);
-  float smoothedAlpha = smoothstep(0.66, 0.33, dist / thickness * 5.0);
+  float yStep = smoothstep(0.1f, gradWeight, uvPos.y - objPos.y);
+  vec3 gradColor = mix(colorStart, colorEnd, yStep);
 
-  // outline(frame)
-  // float smoothedAlpha = smoothstep(0.66, 0.33, abs(dist / thickness) * 5.0);
+  vec3 col;
+  col = (dist > 0.0) ? col : gradColor;
 
-  if (smoothedAlpha >= 0.0) {
-    fragColor = vec4(color, smoothedAlpha);
-    } else {
-      fragColor = vec4(0.0, 0.0, 0.0, 0.0);
-    }
+  float opacity = 1.0;
+  opacity = (dist > 0.0) ? 0.0f : smoothstep(0.009, 0.01, abs(dist)); // determine draw or not
+
+  fragColor = vec4(col, opacity);
 }
